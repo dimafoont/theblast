@@ -11,6 +11,6 @@ def get_left_column():
 
 @register.inclusion_tag('blog/right_column_tpl.html')
 def get_right_column():
-    if Post.objects.filter(category__slug='exclusives-details'):
-        right_column_posts = Post.objects.filter(category__slug='exclusives-details')[0:10]
+    if Post.objects.filter(category__slug='exclusive-details'):
+        right_column_posts = Post.objects.filter(category__slug='exclusive-details')[0:10]
         return {"right_column_posts":right_column_posts}
