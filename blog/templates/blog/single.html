@@ -5,10 +5,6 @@
 {% block content %}
 <div class="content-wrapper">
     <div class="content">
-        <div class="posted">
-            <span>{{ post.updated_at|date:"F j, Y" }}</span>
-        </div>
-
         {{post.content|safe}}
     </div>
 
