@@ -1,0 +1,14 @@
+<div class="sidebar">
+    <h3>Trending stories</h3>
+    <ul class="sidebar-stories">
+        {% for item in trending %}
+        <li>
+            <a href="{{ item.get_absolute_url }}">
+                <img src="{{ item.photo.url }}" alt="">
+                <p>{{ item.title }}</p>
+                <span>{{ post.updated_at|date:"F j, Y" }}</span>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

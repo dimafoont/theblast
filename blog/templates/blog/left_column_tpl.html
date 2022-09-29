@@ -1,0 +1,13 @@
+<div class="left-column">
+        <h3>Latest Clips</h3>
+        <ul>
+            {% for post in left_column_posts %}
+            <li>
+                <a href="{{ post.get_absolute_url }}">
+                    <img src="{{ post.photo.url }}" alt="">
+                    <h4>{{ post.title }}</h4>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>

@@ -1,0 +1,26 @@
+<div class="top-story">
+        <a href="{{ post1.get_absolute_url }}">
+            <span class="flag">Top Story</span>
+            <img src="{{ post1.photo.url }}" alt="">
+            <div class="info-relevant">
+                <h3>{{ post1.title }}</h3>
+                <span class="date">{{ post1.updated_at|date:"F j, Y" }}</span>
+            </div>
+        </a>
+    </div>
+    <div class="top-story-column">
+        <a href="{{ post2.get_absolute_url }}">
+            <img src="{{ post2.photo.url }}" alt="">
+            <div class="info-relevant-column">
+                <h3>{{ post2.title }}</h3>
+                <span class="date">{{ post2.updated_at|date:"F j, Y" }}</span>
+            </div>
+        </a>
+        <a href="{{ post3.get_absolute_url }}">
+            <img src="{{ post3.photo.url }}" alt="">
+            <div class="info-relevant-column">
+                <h3>{{ post3.title }}</h3>
+                <span class="date">{{ post3.updated_at|date:"F j, Y" }}</span>
+            </div>
+        </a>
+    </div>

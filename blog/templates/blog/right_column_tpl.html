@@ -1,0 +1,10 @@
+<div class="right-column">
+        <h3>Exclusives</h3>
+        <ul class="right">
+            {% for post in right_column_posts %}
+            <li>
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>

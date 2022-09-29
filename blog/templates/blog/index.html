@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load relevant %}
+{% load index_columns %}
+
+
+{% block content %}
+
+<div class="relevant">
+    {% get_relevant %}
+</div>
+<div class="three-column">
+    {% get_left_column %}
+    <div class="middle-column">
+        <h3>Latest News</h3>
+        <ul class="middle">
+            {% for post in posts %}
+            <li>
+                <a href="{{ post.get_absolute_url }}">
+                    {% if post.photo %}
+                    <img src="{{ post.photo.url }}" alt="">
+                    {% else %}
+                    <img src="{% static 'img/No_image.png' %}" alt="">
+                    {% endif %}
+                </a>
+                <div class="info-middle">
+                    <a class="link-cat" href="{{ post.category.get_absolute_url }}">{{ post.category.title }}</a>
+                    <a class="title" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                    <span class="date">{{ post.updated_at|date:"F j, Y" }}</span>
+                </div>
+            </li>
+            {% endfor %}
+
+            {{total_obj|json_script:"json-total"}}
+        </ul>
+        <div class="ajax-pagination">
+            <button class="loadmore" href="#">More Stories</button>
+        </div>
+    </div>
+    {% get_right_column %}
+</div>
+
+<script>
+        const loadBtn = document.querySelector('.loadmore');
+        const total = JSON.parse(document.getElementById('json-total').textContent);
+        const noMore = document.querySelector('.no-more');
+        const ajaxNavBlock = document.querySelector('.ajax-pagination');
+
+        function loadmorePost() {
+            var _current_item = $('ul.middle li').length
+            const content_container = document.querySelector('ul.middle')
+            var dateOptions = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                timezone: 'UTC',
+
+            };
+            $.ajax({
+                url: '{% url "load" %}',
+                type: 'GET',
+                data: {
+                    'total_item': _current_item
+                },
+                beforeSend: function () {
+                    // loadBtn.classList.add('not-visible');
+                    // spinner.classList.remove('not-visible');
+                },
+                success: function (response) {
+                    const data = response.posts
+                    // spinner.classList.add('not-visible');
+                    var resolution = '214px';
+                    if (innerWidth <= 600) {
+                        resolution ='none'
+                    }
+                    data.map(post => {
+                        var date = new Date(`${post.created_at}`)
+                        content_container.innerHTML += `<li><a href="/post/${post.slug}/">
+                            <img style="max-height: ${resolution}" src="/media/${post.photo}" alt="img">
+                        <div class="info-middle">
+                            <a class="title" href="/post/${post.slug}/">${post.title}</a>
+                            <span class="date">${date.toLocaleString("en-US", dateOptions)}</span>
+                        </div>
+                    </a></li>`
+                    });
+                },
+                complete: function () {
+                    // if (_current_item >= total - 5) {
+                    //     noMore.classList.remove('not-visible');
+                    //     ajaxNavBlock.style.background = '#fff';
+                    // } else {
+                    //     loadBtn.classList.remove('not-visible');
+                    // }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
+
+        loadBtn.addEventListener('click', () => {
+            loadmorePost()
+        })
+    </script>
+
+{% endblock %}
