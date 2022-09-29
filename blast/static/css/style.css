@@ -488,7 +488,7 @@ aside {
 
 .content iframe {
     min-height:500px;
-    height: 100% !important;
+    width: 100%;
 }
 
 .sidebar-stories {
